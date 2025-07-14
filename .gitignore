@@ -1,0 +1,17 @@
+# Ignore zip files
+*.zip
+
+# Ignore macOS system files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Ignore node modules if you add them later
+node_modules/
+
+# Ignore environment files that might contain secrets
+.env
