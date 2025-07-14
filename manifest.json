@@ -3,6 +3,7 @@
   "description": "Updates church attendance from Google Sheets data",
   "version": "1.0",
   "manifest_version": 3,
+  "privacy_policy": "https://github.com/johndavis92790/church-attendance-extension/blob/main/PRIVACY.md",
   "permissions": [
     "activeTab",
     "storage",
