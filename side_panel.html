@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Church Attendance Updater</title>
+  <style>
+    body {
+      width: auto;
+      max-width: 100%;
+      padding: 12px;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      box-sizing: border-box;
+    }
+    .container {
+      width: 100%;
+      box-sizing: border-box;
+      overflow-x: hidden;
+    }
+    button {
+      background-color: #4285f4;
+      color: white;
+      border: none;
+      padding: 10px;
+      margin: 8px auto;
+      border-radius: 4px;
+      cursor: pointer;
+      width: calc(100% - 8px); /* Account for margins */
+      max-width: 100%;
+      display: block;
+      box-sizing: border-box;
+    }
+    button:hover {
+      background-color: #3367d6;
+    }
+    .hidden {
+      display: none;
+    }
+    #status {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 4px;
+    }
+    .success {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    .error {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+    .loading {
+      background-color: #e9ecef;
+      color: #495057;
+    }
+    #extracted-names {
+      max-height: 300px;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 4px;
+    }
+    .name-item {
+      padding: 5px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .pagination-info {
+      font-style: italic;
+      margin: 5px 0;
+      color: #666;
+    }
+    .section {
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    h2 {
+      margin-top: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Church Attendance Updater</h2>
+    
+    <div id="auth-container" class="section">
+      <button id="authorize-button">Connect to Google Sheets</button>
+    </div>
+    
+    <div id="sheet-container" class="hidden section">
+      <p>Using church attendance spreadsheet.</p>
+      <button id="load-sheet-button">Load Attendance Data</button>
+    </div>
+  
+    <div id="attendance-container" class="hidden section">
+      <h3>Apply Attendance</h3>
+      <button id="apply-attendance-button">Apply Attendance Data</button>
+    </div>
+    
+    <div id="extract-container" class="hidden section">
+      <h3>Extract Names</h3>
+      <p>Navigate through pages and extract names from each page.</p>
+      <button id="extract-names-button">Extract Names from Current Page</button>
+      <button id="reset-button">Reset Extracted Names</button>
+      <button id="send-to-sheets-button">Send Names to Google Sheets</button>
+
+      <div id="status" class="hidden"></div>
+      
+      <div id="extraction-stats">
+        <p>Names on current page: <span id="current-page-count">0</span></p>
+        <p>New names added: <span id="newly-added-count">0</span></p>
+        <p>Total unique names: <span id="total-unique-count">0</span></p>
+      </div>
+    </div>
+    
+  </div>
+  
+  <script src="side_panel.js"></script>
+</body>
+</html>

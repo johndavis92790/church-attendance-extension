@@ -4,31 +4,24 @@
   "version": "1.0",
   "manifest_version": 3,
   "privacy_policy": "https://github.com/johndavis92790/church-attendance-extension/blob/main/PRIVACY.md",
-  "permissions": [
-    "activeTab",
-    "storage",
-    "scripting",
-    "identity"
-  ],
+  "permissions": ["activeTab", "storage", "scripting", "identity", "sidePanel", "notifications"],
   "host_permissions": [
-    "https://*.google.com/*"
+    "https://*.google.com/*",
+    "https://lcr.churchofjesuschrist.org/*"
   ],
   "action": {
-    "default_popup": "popup.html"
+    "default_title": "Church Attendance Updater"
   },
-  "content_scripts": [
-    {
-      "matches": ["https://lcr.churchofjesuschrist.org/*"],
-      "js": ["content.js"]
-    }
-  ],
+  
+  "side_panel": {
+    "default_path": "side_panel.html"
+  },
+
   "background": {
     "service_worker": "background.js"
   },
   "oauth2": {
     "client_id": "736560032232-llijdh3g9jnhhabpespq6vtc38v0k14m.apps.googleusercontent.com",
-    "scopes": [
-      "https://www.googleapis.com/auth/spreadsheets.readonly"
-    ]
+    "scopes": ["https://www.googleapis.com/auth/spreadsheets"]
   }
 }
