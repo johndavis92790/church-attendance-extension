@@ -1,8 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
   // DOM elements
   const authorizeButton = document.getElementById('authorize-button');
-  const sheetContainer = document.getElementById('sheet-container');
-  const loadSheetButton = document.getElementById('load-sheet-button');
+  const sheetInfoText = document.getElementById('sheet-info');
   const attendanceContainer = document.getElementById('attendance-container');
   const extractContainer = document.getElementById('extract-container');
   const applyAttendanceButton = document.getElementById('apply-attendance-button');
@@ -26,7 +25,9 @@ document.addEventListener('DOMContentLoaded', function() {
   function initializeUI() {
     chrome.storage.local.get(['token', 'attendanceData'], function(data) {
       if (data.token) {
-        showSheetForm();
+        // Update button text for re-auth case
+        authorizeButton.textContent = 'Re-connect & Load Attendance Data';
+        sheetInfoText.classList.remove('hidden');
         
         // If we already have attendance data, show the attendance and extract containers
         if (data.attendanceData && data.attendanceData.length > 0) {
@@ -38,19 +39,22 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   // Event listeners
-  authorizeButton.addEventListener('click', authorize);
-  loadSheetButton.addEventListener('click', loadSheetData);
+  authorizeButton.addEventListener('click', authorizeAndLoadData);
   applyAttendanceButton.addEventListener('click', applyAttendance);
   document.getElementById('extract-names-button').addEventListener('click', extractNames);
   document.getElementById('send-to-sheets-button').addEventListener('click', sendNamesToSheets);
   resetButton.addEventListener('click', resetExtension);
   
-  function authorize() {
-    showStatus('Connecting to Google...', 'loading');
+  function authorizeAndLoadData() {
+    showStatus('Connecting to Google and loading data...', 'loading');
     chrome.runtime.sendMessage({ action: 'authorize' }, function(response) {
       if (response && response.token) {
-        showSheetForm();
-        showStatus('Connected to Google!', 'success');
+        // Successfully authorized, now load the sheet data
+        sheetInfoText.classList.remove('hidden');
+        authorizeButton.textContent = 'Re-connect & Load Attendance Data';
+        
+        // Immediately load data from the sheet
+        loadSheetData();
       } else {
         showStatus('Authorization failed. Please try again.', 'error');
       }
@@ -68,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
         renderAttendanceData(response.data);
         showAttendanceForm();
         showExtractForm();
-        showStatus('Attendance data loaded successfully!', 'success');
+        showStatus('Connected and loaded attendance data successfully!', 'success');
       } else {
         showStatus('Failed to load attendance data. Please try again.', 'error');
       }
@@ -271,10 +275,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   
-  function showSheetForm() {
-    authorizeButton.textContent = 'Re-authorize Google Sheets';
-    sheetContainer.classList.remove('hidden');
-  }
+
   
   function showAttendanceForm() {
     attendanceContainer.classList.remove('hidden');
